@@ -9,5 +9,16 @@ class Game:
         self.clock = pygame.time.Clock()
     
     def run(self):
-        while True:
-            pygame.event.get()
+
+        runs = True
+
+        while runs:
+            for e in pygame.event.get():
+                if e.type == pygame.QUIT:
+                    runs = False
+
+            self.window.fill((144, 255, 100))
+            self.clock.tick(FPS)
+            pygame.display.flip()
+
+        pygame.quit()
