@@ -1,5 +1,5 @@
 import pygame
-from settings import WIDTH, HEIGHT, TITLE, FPS
+from settings import WIDTH, HEIGHT, TITLE, FPS, MOVE_EVENT, MOVES_PER_SEC
 from snake import DrawSnake
 
 class Game:
@@ -13,11 +13,17 @@ class Game:
     def run(self):
 
         runs = True
+        
+        pygame.time.set_timer(MOVE_EVENT, 1000 // MOVES_PER_SEC)
 
         while runs:
             for e in pygame.event.get():
                 if e.type == pygame.QUIT:
                     runs = False
+                elif e.type == MOVE_EVENT:
+                    self.snake.step()
+                elif e.type == pygame.KEYDOWN:
+                    self.snake.change_dir(e.key)
 
             self.window.fill((144, 255, 100))
             self.clock.tick(FPS)

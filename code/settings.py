@@ -1,3 +1,5 @@
+import pygame
+
 WIDTH = 800
 HEIGHT = 600
 TITLE = "Snake Game"
@@ -5,3 +7,5 @@ FPS = 15
 CELL = 15
 COLS = WIDTH // CELL
 ROWS = HEIGHT // CELL
+MOVE_EVENT = pygame.USEREVENT + 1
+MOVES_PER_SEC = 8
