@@ -18,6 +18,9 @@ class Game:
         self.is_gold = False
         self.spawn_food()
 
+        self.point = 0
+        self.font = pygame.font.SysFont("Arial", 30, bold=True)
+
     def spawn_food(self):
         if self.random_food.random_food_number() == 1:
             self.current_food = Food()
@@ -25,6 +28,9 @@ class Game:
         else:
             self.current_food = GoldApple()
             self.is_gold = True
+    def draw_score(self):
+        text_surface = self.font.render(f"Score: {self.point}", True, (0, 0, 0))
+        self.window.blit(text_surface, (10, 10))
 
     def run(self):
 
@@ -41,6 +47,10 @@ class Game:
                     self.snake.step()
 
                     if self.snake.head == self.current_food.position:
+                        if self.is_gold == True:
+                            self.point += 5
+                        else:
+                            self.point += 1
                         self.spawn_food()
                         
                 elif e.type == pygame.KEYDOWN:
@@ -54,6 +64,8 @@ class Game:
                 self.current_food.draw(self.window)
             else:
                 self.current_food.draw(self.window)
+
+            self.draw_score()
 
             pygame.display.flip()
 

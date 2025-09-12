@@ -28,7 +28,7 @@ class Food(RandomFood):
         col, row = self.position
         x = col * CELL
         y = row * CELL
-        pygame.draw.rect(surface, (255, 0, 0), (x, y, CELL, CELL)) 
+        pygame.draw.rect(surface, (255, 0, 0), (x, y, CELL, CELL))
 
 class GoldApple(RandomFood):
     def __init__(self):
