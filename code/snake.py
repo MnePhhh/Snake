@@ -2,18 +2,23 @@ import pygame
 from settings import CELL, ROWS, COLS
 
 class DrawSnake:
-    def __init__(self):
-        self.head = (COLS // 2, ROWS // 2)
+    def __init__(self, start_pos=None, start_length=1):
+        if start_pos is None:
+            start_pos = (COLS // 2, ROWS // 2)
         self.dir = (1, 0)
+        self.body = [(start_pos[0], start_pos[1])]
+        self.grow_amount = 0
+
+    @property
+    def head(self):
+        return self.body[0]
 
     def draw_snake(self, surface):
-        cx, cy = self.head
-        x = cx * CELL
-        y = cy * CELL
-        width = CELL
-        height = CELL
-
-        pygame.draw.rect(surface, (0, 0, 0), (x, y, width, height))
+        for segment in self.body:
+            x, y = segment
+            rect = pygame.Rect(x * CELL, y * CELL, CELL, CELL)
+            pygame.draw.rect(surface, (0, 100, 0), rect)
+            pygame.draw.rect(surface, (0, 0, 0), rect, 1)
 
     def change_dir(self, key):
         if (key == pygame.K_UP or key == pygame.K_w) and self.dir != (0, 1):
@@ -30,4 +35,12 @@ class DrawSnake:
         dx, dy = self.dir
         nx = (cx + dx) % COLS
         ny = (cy + dy) % ROWS
-        self.head = (nx, ny)
+        new_head = (nx, ny)
+        self.body.insert(0, new_head)
+        if self.grow_amount > 0:
+            self.grow_amount -= 1
+        else:
+            self.body.pop()
+
+    def grow(self, amount=1):
+        self.grow_amount += amount
