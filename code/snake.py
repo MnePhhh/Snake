@@ -2,12 +2,17 @@ import pygame
 from settings import CELL, ROWS, COLS
 
 class DrawSnake:
-    def __init__(self, start_pos=None, start_length=1):
+    def __init__(self, start_pos=None):
         if start_pos is None:
             start_pos = (COLS // 2, ROWS // 2)
         self.dir = (1, 0)
         self.body = [(start_pos[0], start_pos[1])]
         self.grow_amount = 0
+    
+    def lose(self):
+        for my_body in self.body[1:]:
+            if self.head == my_body:
+                pygame.quit()
 
     @property
     def head(self):

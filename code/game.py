@@ -13,7 +13,7 @@ class Game:
         self.food = Food()
         self.gold_food = GoldApple()
         self.random_food = RandomFood()
-
+        
         self.current_food = None
         self.is_gold = False
         self.spawn_food()
@@ -46,7 +46,7 @@ class Game:
                     runs = False
                 elif e.type == MOVE_EVENT:
                     self.snake.step()
-
+                    
                     if self.snake.head == self.current_food.position:
                         if self.is_gold == True:
                             self._point += 5
@@ -69,6 +69,7 @@ class Game:
                 self.current_food.draw(self.window)
 
             self.draw_score()
+            self.snake.lose()
 
             pygame.display.flip()
 
