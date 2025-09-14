@@ -1,6 +1,7 @@
 import pygame
 from settings import WIDTH, HEIGHT, TITLE, FPS, MOVE_EVENT, MOVES_PER_SEC
 from snake import DrawSnake
+from utils import Menu
 from food import Food, GoldApple, RandomFood
 
 class Game:
@@ -21,6 +22,8 @@ class Game:
         self._point = 0
         self.font = pygame.font.SysFont("Tahoma", 30, bold=True)
 
+        self.menu = Menu()
+
     def spawn_food(self):
         if self.random_food.random_food_number() == 1:
             self.current_food = Food()
@@ -35,12 +38,13 @@ class Game:
 
     def run(self):
 
+        self.menu.music_background()
+
         runs = True
         
         pygame.time.set_timer(MOVE_EVENT, 1000 // MOVES_PER_SEC)
 
         while runs:
-
             for e in pygame.event.get():
                 if e.type == pygame.QUIT:
                     runs = False
@@ -58,7 +62,7 @@ class Game:
                         
                 elif e.type == pygame.KEYDOWN:
                     self.snake.change_dir(e.key)
-                    
+
             self.window.fill((144, 255, 100))
             self.clock.tick(FPS)
             self.snake.draw_snake(self.window)
