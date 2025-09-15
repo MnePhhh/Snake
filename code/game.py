@@ -1,5 +1,5 @@
 import pygame
-from settings import WIDTH, HEIGHT, TITLE, FPS, MOVE_EVENT, MOVES_PER_SEC
+from settings import WIDTH, HEIGHT, TITLE, FPS, MOVE_EVENT, MOVES_PER_SEC, CELL
 from snake import DrawSnake
 from utils import Menu
 from food import Food, GoldApple, RandomFood
@@ -10,11 +10,18 @@ class Game:
         self.window = pygame.display.set_mode((WIDTH, HEIGHT))
         pygame.display.set_caption(TITLE)
         self.clock = pygame.time.Clock()
-        self.snake = DrawSnake()
-        self.food = Food()
-        self.gold_food = GoldApple()
-        self.random_food = RandomFood()
         
+        self.apple_img = pygame.image.load("../assets/apple_red.png").convert_alpha()
+        self.apple_gold_img = pygame.image.load("../assets/apple_gold.png").convert_alpha()
+
+        self.apple_img = pygame.transform.scale(self.apple_img, (CELL, CELL))
+        self.apple_gold_img = pygame.transform.scale(self.apple_gold_img, (CELL, CELL))
+
+        self.snake = DrawSnake()
+        self.food = Food(self.apple_img)
+        self.gold_food = GoldApple(self.apple_gold_img)
+        self.random_food = RandomFood()
+
         self.current_food = None
         self.is_gold = False
         self.spawn_food()
@@ -24,12 +31,13 @@ class Game:
 
         self.menu = Menu()
 
+
     def spawn_food(self):
         if self.random_food.random_food_number() == 1:
-            self.current_food = Food()
+            self.current_food = Food(self.apple_img)
             self.is_gold = False
         else:
-            self.current_food = GoldApple()
+            self.current_food = GoldApple(self.apple_gold_img)
             self.is_gold = True
 
     def draw_score(self):
